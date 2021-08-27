@@ -20,116 +20,67 @@ public class UsuarioController {
     @Autowired
     private IUsuarioService usuarioService;
 
-
-    @GetMapping()
     @ApiOperation(value = "Obtiene una lista de todos los Usuarios", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
+    @GetMapping()
     public @ResponseBody
     ResponseEntity<?> findAll() {
-        try {
-            Optional<List<UsuarioDTO>> result = usuarioService.findAll();
-            if (result.isPresent()) {
-                return new ResponseEntity<>(result, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Optional<List<UsuarioDTO>> result = usuarioService.findAll();
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
     @ApiOperation(value = "Obtiene un usuario por ID", response = UsuarioDTO.class, tags = "Usuarios")
+    @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
-        try {
-
             Optional<UsuarioDTO> usuarioFound = usuarioService.findById(id);
-            if (usuarioFound.isPresent()) {
                 return new ResponseEntity<>(usuarioFound, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
     }
 
+    @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = UsuarioDTO.class, tags = "Seguridad")
     @PutMapping("/login")
     @ResponseBody
-    @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = UsuarioDTO.class, tags = "Seguridad")
     public ResponseEntity<?> login(@PathVariable(value = "cedula") String cedula, @PathVariable(value = "password") String password) {
-        try {
-            UsuarioDTO usuario = new UsuarioDTO();
             Optional<UsuarioDTO> usuarioFound = usuarioService.login(cedula, password);
-            if (usuarioFound.isPresent()) {
                 return new ResponseEntity<>(usuarioFound, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
 
     }
 
-    @GetMapping("/cedula/{term}")
     @ApiOperation(value = "Obtiene un usuario por cedula", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
+    @GetMapping("/cedula/{term}")
     public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "term") String term) {
-        try {
+
             Optional<List<UsuarioDTO>> result = usuarioService.findByCedulaAproximate(term);
-            if (result.isPresent()) {
+
                 return new ResponseEntity<>(result, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
     }
 
-    @GetMapping("/nombre/{term}")
     @ApiOperation(value = "Obtiene un usuario por nombre", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
+    @GetMapping("/nombre/{term}")
     public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "term") String term) {
-        try {
+
             Optional<List<UsuarioDTO>> result = usuarioService.findByNombreCompletoAproximateIgnoreCase(term);
-            if (result.isPresent()) {
-                return new ResponseEntity<>(result, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+            return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Crea un usuario", response = UsuarioDTO.class, tags = "Usuarios")
     @PostMapping("/")
     @ResponseBody
-    @ApiOperation(value = "Crea un usuario", response = UsuarioDTO.class, tags = "Usuarios")
     public ResponseEntity<?> create(@RequestBody UsuarioDTO usuarioDTO) {
-        try {
             Optional<UsuarioDTO> usuarioCreated = usuarioService.create(usuarioDTO);
             return new ResponseEntity<>(usuarioCreated, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
     }
 
+    @ApiOperation(value = "Modifica un usuario", response = UsuarioDTO.class, tags = "Usuarios")
     @PutMapping("/{id}")
     @ResponseBody
-    @ApiOperation(value = "Modifica un usuario", response = UsuarioDTO.class, tags = "Usuarios")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody UsuarioDTO usuarioModified) {
-        try {
+
             Optional<UsuarioDTO> usuarioUpdated = usuarioService.update(usuarioModified, id);
-            if (usuarioUpdated.isPresent()) {
                 return new ResponseEntity<>(usuarioUpdated, HttpStatus.OK);
 
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @DeleteMapping("/{id}")
