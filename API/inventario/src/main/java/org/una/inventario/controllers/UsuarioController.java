@@ -1,5 +1,7 @@
 package org.una.inventario.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
+@Api(tags = {"Usuarios"})
 public class UsuarioController {
 
     @Autowired
@@ -19,6 +22,7 @@ public class UsuarioController {
 
 
     @GetMapping()
+    @ApiOperation(value = "Obtiene una lista de todos los Usuarios", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
     public @ResponseBody
     ResponseEntity<?> findAll() {
         try {
@@ -34,6 +38,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Obtiene un usuario por ID", response = UsuarioDTO.class, tags = "Usuarios")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
         try {
 
@@ -50,6 +55,7 @@ public class UsuarioController {
 
     @PutMapping("/login")
     @ResponseBody
+    @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = UsuarioDTO.class, tags = "Seguridad")
     public ResponseEntity<?> login(@PathVariable(value = "cedula") String cedula, @PathVariable(value = "password") String password) {
         try {
             UsuarioDTO usuario = new UsuarioDTO();
@@ -66,6 +72,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/cedula/{term}")
+    @ApiOperation(value = "Obtiene un usuario por cedula", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
     public ResponseEntity<?> findByCedulaAproximate(@PathVariable(value = "term") String term) {
         try {
             Optional<List<UsuarioDTO>> result = usuarioService.findByCedulaAproximate(term);
@@ -80,6 +87,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/nombre/{term}")
+    @ApiOperation(value = "Obtiene un usuario por nombre", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
     public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "term") String term) {
         try {
             Optional<List<UsuarioDTO>> result = usuarioService.findByNombreCompletoAproximateIgnoreCase(term);
@@ -96,6 +104,7 @@ public class UsuarioController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/")
     @ResponseBody
+    @ApiOperation(value = "Crea un usuario", response = UsuarioDTO.class, tags = "Usuarios")
     public ResponseEntity<?> create(@RequestBody UsuarioDTO usuarioDTO) {
         try {
             Optional<UsuarioDTO> usuarioCreated = usuarioService.create(usuarioDTO);
@@ -107,6 +116,7 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     @ResponseBody
+    @ApiOperation(value = "Modifica un usuario", response = UsuarioDTO.class, tags = "Usuarios")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody UsuarioDTO usuarioModified) {
         try {
             Optional<UsuarioDTO> usuarioUpdated = usuarioService.update(usuarioModified, id);
@@ -139,4 +149,5 @@ public class UsuarioController {
 //        throw new Exception("Not implemented Function");
 
     }
+
 }
