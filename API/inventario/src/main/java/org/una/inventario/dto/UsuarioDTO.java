@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.una.inventario.entities.Departamento;
 
 import java.util.Date;
 
@@ -20,6 +21,7 @@ public class UsuarioDTO {
     private Date fechaRegistro;
     private Date fechaModificacion;
     private Long departamentoId;
+    private Departamento departamento;
     private boolean esJefe;
 
 }

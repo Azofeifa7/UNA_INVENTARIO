@@ -15,6 +15,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/usuarios")
 @Api(tags = {"Usuarios"})
+
 public class UsuarioController {
 
     @Autowired
@@ -82,6 +83,15 @@ public class UsuarioController {
                 return new ResponseEntity<>(usuarioUpdated, HttpStatus.OK);
 
     }
+
+    @ApiOperation(value = "Obtiene un departamento por id", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
+    @GetMapping("/id/{term}")
+    public ResponseEntity<?> findByDepartamentoId(@PathVariable(value = "term") Long term) {
+
+        Optional<List<UsuarioDTO>> result = usuarioService.findByDepartamentoId(term);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) throws Exception {

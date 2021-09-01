@@ -49,6 +49,7 @@ public class UsuarioServiceImplementation implements IUsuarioService {
 
     }
 
+
     @Override
     @Transactional
     public void delete(Long id) {
@@ -60,6 +61,16 @@ public class UsuarioServiceImplementation implements IUsuarioService {
     public void deleteAll() {
         usuarioRepository.deleteAll();
     }
+
+    @Override
+    public Optional<List<UsuarioDTO>> findByDepartamentoId(Long id) {
+        List<Usuario> usuarioList = usuarioRepository.findByDepartamentoId(id);
+        if (usuarioList.isEmpty()) throw new NotFoundInformationException();
+
+        List<UsuarioDTO> usuarioDTOList = MapperUtils.DtoListFromEntityList(usuarioList, UsuarioDTO.class);
+        return Optional.ofNullable(usuarioDTOList);
+    }
+
 
     @Override
     @Transactional(readOnly = true)
