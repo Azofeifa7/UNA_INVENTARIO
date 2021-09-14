@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "departamentos")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -41,6 +42,8 @@ public class Departamento implements Serializable {
     private Date fechaModificacion;
 
     private static final long serialVersionUID = 1L;
+
+
 
     @PrePersist
     public void prePersist() {

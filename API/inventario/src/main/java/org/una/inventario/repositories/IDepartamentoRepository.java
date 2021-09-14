@@ -8,7 +8,7 @@ import org.una.inventario.entities.Usuario;
 import java.util.List;
 
 @Repository
-public interface IDepartamentoRepository extends JpaRepository<Usuario, Long> {
+public interface IDepartamentoRepository extends JpaRepository<Departamento, Long> {
 
     public List<Departamento> findByEstado(boolean estado);
 }

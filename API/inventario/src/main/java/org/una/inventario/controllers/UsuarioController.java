@@ -95,13 +95,13 @@ public class UsuarioController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) throws Exception {
-        try {
+       // try {
             usuarioService.delete(id);
             return new ResponseEntity<>("Ok", HttpStatus.OK);
 
-        } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+       // } catch (Exception e) {
+       //     return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+       // }
     }
 
     @DeleteMapping("/")

@@ -5,7 +5,9 @@ import lombok.*;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
@@ -38,6 +40,9 @@ public class Usuario implements Serializable {
    @JoinColumn(name="departamentos_id")
    private Departamento departamento;
 
+    @ManyToOne
+    @JoinColumn(name="rol")
+    private Rol rol;
 
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.DATE)

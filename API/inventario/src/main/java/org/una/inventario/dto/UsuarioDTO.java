@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.una.inventario.entities.Departamento;
+import org.una.inventario.entities.Rol;
 
 import java.util.Date;
 
