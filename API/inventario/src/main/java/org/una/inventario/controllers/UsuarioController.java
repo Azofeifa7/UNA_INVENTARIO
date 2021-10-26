@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.una.inventario.dto.AuthenticationResponse;
 import org.una.inventario.dto.UsuarioDTO;
@@ -35,30 +36,12 @@ public class UsuarioController {
 
     @ApiOperation(value = "Obtiene un usuario por ID", response = UsuarioDTO.class, tags = "Usuarios")
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('AUDITOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
             Optional<UsuarioDTO> usuarioFound = usuarioService.findById(id);
                 return new ResponseEntity<>(usuarioFound, HttpStatus.OK);
 
     }
-
-//    @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = UsuarioDTO.class, tags = "Seguridad")
-//    @PutMapping("/login")
-//    @ResponseBody
-//    public ResponseEntity<?> login(@PathVariable(value = "cedula") String cedula, @PathVariable(value = "password") String password) {
-//        if (bindingResult.hasErrors()) { throw new MissingInputsException();  }
-//        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-//        String token = usuarioService.login(authenticationRequest);
-//        if (!token.isBlank()) {
-//            authenticationResponse.setJwt(token);
-//            //TODO: Complete this   authenticationResponse.setUsuario(usuario);
-//            //TODO: Complete this    authenticationResponse.setPermisos(permisosOtorgados);
-//            return new ResponseEntity(authenticationResponse, HttpStatus.OK);
-//        } else {
-//            throw new InvalidCredentialsException();
-//        }
-//
-//
-//    }
 
     @ApiOperation(value = "Obtiene un usuario por cedula", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
     @GetMapping("/cedula/{term}")
@@ -106,13 +89,11 @@ public class UsuarioController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) throws Exception {
        // try {
             usuarioService.delete(id);
             return new ResponseEntity<>("Ok", HttpStatus.OK);
-
        // } catch (Exception e) {
        //     return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
        // }

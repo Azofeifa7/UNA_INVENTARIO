@@ -113,30 +113,6 @@ public class UsuarioServiceImplementation implements IUsuarioService, UserDetail
         return Optional.ofNullable(usuarioDTOList);
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public AuthenticationResponse login(AuthenticationRequest authenticationRequest) {
-//
-//        Optional<Usuario> usuario = usuarioRepository.findByCedula(authenticationRequest.getCedula());
-//
-//        if (usuario.isPresent() &&  bCryptPasswordEncoder.matches(authenticationRequest.getPassword(),usuario.get().getPasswordEncriptado())) {
-//            AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-//            Authentication authentication = authenticationManager
-//                    .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getCedula(), authenticationRequest.getPassword()));
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//            authenticationResponse.setJwt(jwtProvider.generateToken(authenticationRequest));
-//            UsuarioDTO usuarioDto = MapperUtils.DtoFromEntity(usuario.get(), UsuarioDTO.class);
-//            authenticationResponse.setUsuarioDTO(usuarioDto);
-//            authenticationResponse.setRolDTO(RolDTO.builder().nombre(usuarioDto.getRol().getNombre()).build());
-//
-//            return authenticationResponse;
-//        } else {
-//            throw new InvalidCredentialsException();
-//        }
-//    }
-
-
 
     @Override
     @Transactional(readOnly = true)
