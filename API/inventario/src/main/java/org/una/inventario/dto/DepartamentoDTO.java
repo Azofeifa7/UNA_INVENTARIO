@@ -9,13 +9,9 @@ import java.util.Date;
 @ToString
 @Builder
 public class DepartamentoDTO {
-
-
     private Long id;
     private String nombre;
     private boolean estado;
     private Date fechaRegistro;
     private Date fechaModificacion;
-
-
 }

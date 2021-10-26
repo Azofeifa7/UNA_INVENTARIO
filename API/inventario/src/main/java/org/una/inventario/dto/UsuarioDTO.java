@@ -20,11 +20,10 @@ public class UsuarioDTO {
     private Date fechaRegistro;
     private Date fechaModificacion;
     private Long departamentoId;
-    private DepartamentoDTO departamento;
-    private RolDTO rol;
     private String passwordEncriptado;
     private boolean esJefe;
-
+    private DepartamentoDTO departamento;
+    private RolDTO rol;
 }
 
 

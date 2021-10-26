@@ -29,6 +29,7 @@ public class Departamento implements Serializable {
     private boolean estado;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento")
+    @Builder.Default
     private List<Usuario> usuarios = new ArrayList<>();
 
     @Column(name = "fecha_registro", updatable = false)

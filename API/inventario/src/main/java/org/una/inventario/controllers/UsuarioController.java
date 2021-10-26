@@ -5,21 +5,26 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.una.inventario.dto.AuthenticationResponse;
 import org.una.inventario.dto.UsuarioDTO;
+import org.una.inventario.exceptions.InvalidCredentialsException;
+import org.una.inventario.exceptions.MissingInputsException;
 import org.una.inventario.services.IUsuarioService;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+
 @RequestMapping("/usuarios")
 @Api(tags = {"Usuarios"})
-
+@RestController
 public class UsuarioController {
 
     @Autowired
     private IUsuarioService usuarioService;
+
 
     @ApiOperation(value = "Obtiene una lista de todos los Usuarios", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
     @GetMapping()
@@ -31,17 +36,9 @@ public class UsuarioController {
 
     @ApiOperation(value = "Obtiene un usuario por ID", response = UsuarioDTO.class, tags = "Usuarios")
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('AUDITOR')")
     public ResponseEntity<?> findById(@PathVariable(value = "id") Long id) {
             Optional<UsuarioDTO> usuarioFound = usuarioService.findById(id);
-                return new ResponseEntity<>(usuarioFound, HttpStatus.OK);
-
-    }
-
-    @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = UsuarioDTO.class, tags = "Seguridad")
-    @PutMapping("/login")
-    @ResponseBody
-    public ResponseEntity<?> login(@PathVariable(value = "cedula") String cedula, @PathVariable(value = "password") String password) {
-            Optional<UsuarioDTO> usuarioFound = usuarioService.login(cedula, password);
                 return new ResponseEntity<>(usuarioFound, HttpStatus.OK);
 
     }
@@ -92,13 +89,11 @@ public class UsuarioController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) throws Exception {
        // try {
             usuarioService.delete(id);
             return new ResponseEntity<>("Ok", HttpStatus.OK);
-
        // } catch (Exception e) {
        //     return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
        // }
