@@ -1,4 +1,15 @@
 package org.una.inventario.repositories;
 
-public interface IActivoRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.una.inventario.entities.Activo;
+import org.una.inventario.entities.Categoria;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface IActivoRepository extends JpaRepository<Activo, Long> {
+
+    List<Activo> findByEstado(String term);
+
+    Optional<Activo> findByNombre(String nombre);
 }
