@@ -12,10 +12,10 @@ import org.una.inventario.services.IUsuarioService;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+
 @RequestMapping("/usuarios")
 @Api(tags = {"Usuarios"})
-
+@RestController
 public class UsuarioController {
 
     @Autowired

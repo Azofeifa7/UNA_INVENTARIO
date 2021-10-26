@@ -1,5 +1,6 @@
 package org.una.inventario.services;
 
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Builder
 public class UsuarioServiceImplementation implements IUsuarioService {
 
     @Autowired
@@ -103,7 +105,7 @@ public class UsuarioServiceImplementation implements IUsuarioService {
     @Transactional(readOnly = true)
     public Optional<List<UsuarioDTO>> findByCedulaAproximate(String cedula) {
         List<Usuario> usuarioList = usuarioRepository.findByCedulaContaining(cedula);
-       // if (usuarioList.isEmpty()) throw new NotFoundInformationException();
+        if (!usuarioList.isEmpty()) throw new NotFoundInformationException();
 
         List<UsuarioDTO> usuarioDTOList = MapperUtils.DtoListFromEntityList(usuarioList, UsuarioDTO.class);
         return Optional.ofNullable(usuarioDTOList);
