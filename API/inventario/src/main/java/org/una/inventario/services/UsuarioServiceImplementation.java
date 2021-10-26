@@ -2,23 +2,35 @@ package org.una.inventario.services;
 
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.una.inventario.dto.UsuarioDTO;
 import org.una.inventario.entities.Usuario;
 import org.una.inventario.exceptions.NotFoundInformationException;
+import org.una.inventario.exceptions.PasswordIsBlankException;
 import org.una.inventario.repositories.IUsuarioRepository;
 import org.una.inventario.utils.MapperUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Builder
-public class UsuarioServiceImplementation implements IUsuarioService {
+public class UsuarioServiceImplementation implements IUsuarioService, UserDetailsService {
 
     @Autowired
     private IUsuarioRepository usuarioRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     @Transactional(readOnly = true)
@@ -29,6 +41,17 @@ public class UsuarioServiceImplementation implements IUsuarioService {
 
     }
 
+
+
+    private String encriptarPassword(String password) {
+        if (!password.isBlank()) {
+            return bCryptPasswordEncoder.encode(password);
+        }else{
+            throw new PasswordIsBlankException();
+        }
+    }
+
+
     private UsuarioDTO getSavedUsuarioDTO(UsuarioDTO usuarioDTO) {
         Usuario usuario = MapperUtils.EntityFromDto(usuarioDTO, Usuario.class);
         Usuario usuarioCreated = usuarioRepository.save(usuario);
@@ -38,6 +61,7 @@ public class UsuarioServiceImplementation implements IUsuarioService {
     @Override
     @Transactional
     public Optional<UsuarioDTO> create(UsuarioDTO usuarioDTO) {
+        usuarioDTO.setPasswordEncriptado(encriptarPassword(usuarioDTO.getPasswordEncriptado()));
         return Optional.ofNullable(getSavedUsuarioDTO(usuarioDTO));
     }
 
@@ -109,6 +133,29 @@ public class UsuarioServiceImplementation implements IUsuarioService {
 
         List<UsuarioDTO> usuarioDTOList = MapperUtils.DtoListFromEntityList(usuarioList, UsuarioDTO.class);
         return Optional.ofNullable(usuarioDTOList);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<UsuarioDTO> findByCedula(String cedula) {
+        Optional<Usuario> usuario = usuarioRepository.findByCedula(cedula);
+        UsuarioDTO usuarioDTO = MapperUtils.DtoFromEntity(usuario, UsuarioDTO.class);
+
+        return Optional.ofNullable(usuarioDTO);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<Usuario> usuarioBuscado = usuarioRepository.findByCedula(username);
+        if (usuarioBuscado.isPresent()) {
+            Usuario usuario = usuarioBuscado.get();
+            List<GrantedAuthority> roles = new ArrayList<>();
+            roles.add(new SimpleGrantedAuthority("ADMIN"));
+            UserDetails userDetails = new User(usuario.getCedula(), usuario.getPasswordEncriptado(), roles);
+            return userDetails;
+        } else {
+            throw new UsernameNotFoundException("Username not found, check your request");
+        }
     }
 
 }

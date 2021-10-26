@@ -13,6 +13,8 @@ public interface IUsuarioService {
 
     public Optional<List<UsuarioDTO>> findByCedulaAproximate(String cedula);
 
+    public Optional<UsuarioDTO> findByCedula(String cedula);
+
     public Optional<List<UsuarioDTO>> findByNombreCompletoAproximateIgnoreCase(String nombreCompleto);
 
     public Optional<UsuarioDTO> create(UsuarioDTO usuarioDTO);
