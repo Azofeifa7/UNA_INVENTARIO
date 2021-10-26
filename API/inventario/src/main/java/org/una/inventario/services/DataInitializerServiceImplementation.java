@@ -32,7 +32,7 @@ public class DataInitializerServiceImplementation implements IDataInitializerSer
         Rol administradorRol =  rolRepository.save(Rol.builder().nombre("Administrador").build());
 
 
-        Usuario cajeroUsuario = new Usuario();
+        /*Usuario cajeroUsuario = new Usuario();
         cajeroUsuario.setCedula("0123456789");
         cajeroUsuario.setNombreCompleto("Usuario Prueba cajero");
         cajeroUsuario.setPasswordEncriptado("Una2021");
@@ -47,7 +47,7 @@ public class DataInitializerServiceImplementation implements IDataInitializerSer
         coordinadorDepartamentoUsuario.setPasswordEncriptado("Una2021");
         coordinadorDepartamentoUsuario.setDepartamento(patentesDepartamento);
         coordinadorDepartamentoUsuario.setRol(administradorRol);
-        usuarioRepository.save(coordinadorDepartamentoUsuario);
+        usuarioRepository.save(coordinadorDepartamentoUsuario);*/
 
     }
 

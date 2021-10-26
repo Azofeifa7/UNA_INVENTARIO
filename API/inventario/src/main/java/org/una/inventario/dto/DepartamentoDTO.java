@@ -1,7 +1,13 @@
 package org.una.inventario.dto;
 
-import java.util.Date;
+import lombok.*;
 
+import java.util.Date;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Builder
 public class DepartamentoDTO {
 
 

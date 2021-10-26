@@ -6,11 +6,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.una.inventario.dto.DepartamentoDTO;
+import org.una.inventario.dto.UsuarioDTO;
 import org.una.inventario.services.IDepartamentoService;
 
 import java.util.List;
@@ -32,5 +30,15 @@ public class DepartamentoController {
 
         Optional<List<DepartamentoDTO>> result = departamentoService.findbyEstado(term);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Crea un departamento", response = DepartamentoDTO.class, tags = "Departamentos")
+    @PostMapping("/")
+    @ResponseBody
+    public ResponseEntity<?> create(@RequestBody DepartamentoDTO departamentoDTO) {
+        Optional<DepartamentoDTO> departamentoCreated = departamentoService.create(departamentoDTO);
+        return new ResponseEntity<>(departamentoCreated, HttpStatus.CREATED);
+
     }
 }

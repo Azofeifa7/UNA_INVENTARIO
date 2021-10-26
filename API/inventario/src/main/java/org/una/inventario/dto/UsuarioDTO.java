@@ -1,9 +1,6 @@
 package org.una.inventario.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.una.inventario.entities.Departamento;
 import org.una.inventario.entities.Rol;
 
@@ -13,6 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 public class UsuarioDTO {
 
     private Long id;
@@ -22,7 +20,9 @@ public class UsuarioDTO {
     private Date fechaRegistro;
     private Date fechaModificacion;
     private Long departamentoId;
-    private Departamento departamento;
+    private DepartamentoDTO departamento;
+    private RolDTO rol;
+    private String passwordEncriptado;
     private boolean esJefe;
 
 }
