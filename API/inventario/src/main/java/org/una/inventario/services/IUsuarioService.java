@@ -1,5 +1,7 @@
 package org.una.inventario.services;
 
+import org.una.inventario.dto.AuthenticationRequest;
+import org.una.inventario.dto.AuthenticationResponse;
 import org.una.inventario.dto.UsuarioDTO;
 
 import java.util.List;
@@ -26,7 +28,7 @@ public interface IUsuarioService {
     public void deleteAll();
     public Optional<List<UsuarioDTO>> findByDepartamentoId(Long id);
 
-
-    public Optional<UsuarioDTO> login(String cedula,String password);
+   // public AuthenticationResponse login(AuthenticationRequest authenticationRequest);
+    //public Optional<UsuarioDTO> login(String cedula,String password);
 }
 

@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.una.inventario.dto.AuthenticationResponse;
 import org.una.inventario.dto.UsuarioDTO;
+import org.una.inventario.exceptions.InvalidCredentialsException;
+import org.una.inventario.exceptions.MissingInputsException;
 import org.una.inventario.services.IUsuarioService;
 
 import java.util.List;
@@ -20,6 +23,7 @@ public class UsuarioController {
 
     @Autowired
     private IUsuarioService usuarioService;
+
 
     @ApiOperation(value = "Obtiene una lista de todos los Usuarios", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
     @GetMapping()
@@ -37,14 +41,24 @@ public class UsuarioController {
 
     }
 
-    @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = UsuarioDTO.class, tags = "Seguridad")
-    @PutMapping("/login")
-    @ResponseBody
-    public ResponseEntity<?> login(@PathVariable(value = "cedula") String cedula, @PathVariable(value = "password") String password) {
-            Optional<UsuarioDTO> usuarioFound = usuarioService.login(cedula, password);
-                return new ResponseEntity<>(usuarioFound, HttpStatus.OK);
-
-    }
+//    @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = UsuarioDTO.class, tags = "Seguridad")
+//    @PutMapping("/login")
+//    @ResponseBody
+//    public ResponseEntity<?> login(@PathVariable(value = "cedula") String cedula, @PathVariable(value = "password") String password) {
+//        if (bindingResult.hasErrors()) { throw new MissingInputsException();  }
+//        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+//        String token = usuarioService.login(authenticationRequest);
+//        if (!token.isBlank()) {
+//            authenticationResponse.setJwt(token);
+//            //TODO: Complete this   authenticationResponse.setUsuario(usuario);
+//            //TODO: Complete this    authenticationResponse.setPermisos(permisosOtorgados);
+//            return new ResponseEntity(authenticationResponse, HttpStatus.OK);
+//        } else {
+//            throw new InvalidCredentialsException();
+//        }
+//
+//
+//    }
 
     @ApiOperation(value = "Obtiene un usuario por cedula", response = UsuarioDTO.class, responseContainer = "List", tags = "Usuarios")
     @GetMapping("/cedula/{term}")

@@ -2,8 +2,12 @@ package org.una.inventario.services;
 
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,10 +15,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.una.inventario.dto.AuthenticationRequest;
+import org.una.inventario.dto.AuthenticationResponse;
+import org.una.inventario.dto.RolDTO;
 import org.una.inventario.dto.UsuarioDTO;
 import org.una.inventario.entities.Usuario;
+import org.una.inventario.exceptions.InvalidCredentialsException;
 import org.una.inventario.exceptions.NotFoundInformationException;
 import org.una.inventario.exceptions.PasswordIsBlankException;
+import org.una.inventario.jwt.JwtProvider;
 import org.una.inventario.repositories.IUsuarioRepository;
 import org.una.inventario.utils.MapperUtils;
 
@@ -31,6 +40,13 @@ public class UsuarioServiceImplementation implements IUsuarioService, UserDetail
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtProvider jwtProvider;
+
 
     @Override
     @Transactional(readOnly = true)
@@ -97,14 +113,30 @@ public class UsuarioServiceImplementation implements IUsuarioService, UserDetail
         return Optional.ofNullable(usuarioDTOList);
     }
 
+//    @Override
+//    @Transactional(readOnly = true)
+//    public AuthenticationResponse login(AuthenticationRequest authenticationRequest) {
+//
+//        Optional<Usuario> usuario = usuarioRepository.findByCedula(authenticationRequest.getCedula());
+//
+//        if (usuario.isPresent() &&  bCryptPasswordEncoder.matches(authenticationRequest.getPassword(),usuario.get().getPasswordEncriptado())) {
+//            AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+//            Authentication authentication = authenticationManager
+//                    .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getCedula(), authenticationRequest.getPassword()));
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//            authenticationResponse.setJwt(jwtProvider.generateToken(authenticationRequest));
+//            UsuarioDTO usuarioDto = MapperUtils.DtoFromEntity(usuario.get(), UsuarioDTO.class);
+//            authenticationResponse.setUsuarioDTO(usuarioDto);
+//            authenticationResponse.setRolDTO(RolDTO.builder().nombre(usuarioDto.getRol().getNombre()).build());
+//
+//            return authenticationResponse;
+//        } else {
+//            throw new InvalidCredentialsException();
+//        }
+//    }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<UsuarioDTO> login(String cedula, String password) {
-        Usuario usuario = usuarioRepository.findByCedulaAndPasswordEncriptado(cedula, password);
-        return Optional.ofNullable(MapperUtils.DtoFromEntity(usuario, UsuarioDTO.class));
 
-    }
 
     @Override
     @Transactional(readOnly = true)
@@ -150,13 +182,13 @@ public class UsuarioServiceImplementation implements IUsuarioService, UserDetail
         if (usuarioBuscado.isPresent()) {
             Usuario usuario = usuarioBuscado.get();
             List<GrantedAuthority> roles = new ArrayList<>();
-            roles.add(new SimpleGrantedAuthority("ADMIN"));
-            UserDetails userDetails = new User(usuario.getCedula(), usuario.getPasswordEncriptado(), roles);
-            return userDetails;
+            roles.add(new SimpleGrantedAuthority(usuario.getRol().getNombre()));
+            return new User(usuario.getCedula(), usuario.getPasswordEncriptado(), roles);
         } else {
             throw new UsernameNotFoundException("Username not found, check your request");
         }
     }
+
 
 }
 

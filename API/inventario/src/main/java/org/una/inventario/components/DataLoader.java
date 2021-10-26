@@ -35,15 +35,16 @@ public class DataLoader implements ApplicationRunner{
     @Override
     public void run(ApplicationArguments args) {
         if (!usuarioService.findByCedulaAproximate(cedula).isEmpty()) {
+
             Optional<DepartamentoDTO> contabilidadDepartamento = departamentoService.create(DepartamentoDTO.builder().nombre("Contabilidad").build());
             Optional<DepartamentoDTO> cajasDepartamento = departamentoService.create(DepartamentoDTO.builder().nombre("Cajas").build());
             Optional<DepartamentoDTO> informaticaDepartamento = departamentoService.create(DepartamentoDTO.builder().nombre("Informatica").build());
 
-            Optional<RolDTO> colaboradorRol = rolService.create(RolDTO.builder().nombre("Colaborador").build());
-            Optional<RolDTO> auditorRol = rolService.create(RolDTO.builder().nombre("Auditor").build());
-            Optional<RolDTO> contadorRol = rolService.create(RolDTO.builder().nombre("Contador").build());
-            Optional<RolDTO> usuarioRol = rolService.create(RolDTO.builder().nombre("Usuario").build());
-            Optional<RolDTO> administradorRol = rolService.create(RolDTO.builder().nombre("Administrador").build());
+            Optional<RolDTO> colaboradorRol = rolService.create(RolDTO.builder().nombre(RolesTypes.ROLE_COLABORADOR.name()).build());
+            Optional<RolDTO> auditorRol = rolService.create(RolDTO.builder().nombre(RolesTypes.ROLE_AUDITOR.name()).build());
+            Optional<RolDTO> contadorRol = rolService.create(RolDTO.builder().nombre(RolesTypes.ROLE_CONTADOR.name()).build());
+            Optional<RolDTO> usuarioRol = rolService.create(RolDTO.builder().nombre(RolesTypes.ROLE_USUARIO.name()).build());
+            Optional<RolDTO> administradorRol = rolService.create(RolDTO.builder().nombre(RolesTypes.ROLE_ADMINISTRADOR.name()).build());
 
 
             UsuarioDTO cajeroUsuario = UsuarioDTO.builder()
