@@ -16,6 +16,7 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
     public List<Usuario> findByCedulaContaining(String cedula);
 
     public List<Usuario> findByNombreCompletoContainingIgnoreCase(String nombreCompleto);
+
     public List<Usuario> findByDepartamentoId(Long id);
 
     @Query("select u from Usuario u where UPPER(u.nombreCompleto) like CONCAT('%',UPPER(:nombreCompleto),'%')")
