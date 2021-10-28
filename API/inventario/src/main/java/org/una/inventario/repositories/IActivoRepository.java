@@ -2,7 +2,6 @@ package org.una.inventario.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.una.inventario.entities.Activo;
-import org.una.inventario.entities.Categoria;
 
 import java.util.List;
 import java.util.Optional;

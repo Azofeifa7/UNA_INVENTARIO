@@ -19,7 +19,6 @@ public class UsuarioDTO {
     private boolean estado;
     private Date fechaRegistro;
     private Date fechaModificacion;
-    private Long departamentoId;
     private String passwordEncriptado;
     private boolean esJefe;
     private DepartamentoDTO departamento;
