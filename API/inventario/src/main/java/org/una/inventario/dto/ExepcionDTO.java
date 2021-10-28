@@ -1,9 +1,6 @@
 package org.una.inventario.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.una.inventario.entities.Usuario;
 
 import java.util.Date;
@@ -12,11 +9,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 public class ExepcionDTO {
 
     private Long id;
     private String descripcion;
     private boolean estado;
     private Date fechaCreacion;
-    private Usuario usuario;
+    private UsuarioDTO usuario;
 }

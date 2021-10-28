@@ -5,13 +5,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.una.inventario.dto.ActivoDTO;
 import org.una.inventario.dto.CategoriaDTO;
+import org.una.inventario.dto.UsuarioDTO;
 import org.una.inventario.entities.Activo;
 import org.una.inventario.entities.Categoria;
+import org.una.inventario.entities.Usuario;
 import org.una.inventario.exceptions.NotFoundInformationException;
 import org.una.inventario.repositories.IActivoRepository;
 import org.una.inventario.repositories.ICategoriaRepository;
 import org.una.inventario.utils.MapperUtils;
 
+
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,4 +86,14 @@ public class ActivoServiceImplementation implements IActivoService{
         ActivoDTO activoDTO = MapperUtils.DtoFromEntity(activo.get(), ActivoDTO.class);
         return Optional.ofNullable(activoDTO);
     }
+
+
+    @Override
+    public Optional<List<ActivoDTO>> findByProveedorIdAndStart(Long id, Date fechaInicio, Date fechaFinal) {
+        List<Activo> activoList = activoRepository.findByProveedorIdAndStartDate(id, fechaInicio, fechaFinal);
+        List<ActivoDTO> activoDTOList = MapperUtils.DtoListFromEntityList(activoList, ActivoDTO.class);
+        return Optional.ofNullable(activoDTOList);
+    }
+
+
 }

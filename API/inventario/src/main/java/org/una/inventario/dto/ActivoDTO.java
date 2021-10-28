@@ -1,10 +1,7 @@
 package org.una.inventario.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.una.inventario.entities.Categoria;
 import org.una.inventario.entities.Proveedor;
 
@@ -14,12 +11,13 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 public class ActivoDTO {
     private Long id;
     private String nombre;
     private boolean estado;
     private Date fechaCreacion;
     private Date fechaModificacion;
-    //private Proveedor proveedor;
-   // private Categoria categoria;
+    private ProveedorDTO proveedor;
+    private CategoriaDTO categoria;
 }

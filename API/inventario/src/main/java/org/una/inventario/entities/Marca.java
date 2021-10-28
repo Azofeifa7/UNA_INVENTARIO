@@ -4,7 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "marcas")
@@ -29,6 +31,10 @@ public class Marca implements Serializable {
     @Temporal(TemporalType.DATE)
     @Setter(AccessLevel.NONE)
     private Date fechaCreacion;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "marca")
+    @Builder.Default
+    private List<Activo> activo = new ArrayList<>();
 
     private static final long serialVersionUID = 1L;
 

@@ -30,6 +30,13 @@ public class ActivoAsignado implements Serializable {
     @Setter(AccessLevel.NONE)
     private Date fechaCreacion;
 
+    @ManyToOne
+    @JoinColumn(name="usuario_id")
+    private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name="activo_id")
+    private Activo activo;
 
     private static final long serialVersionUID = 1L;
 

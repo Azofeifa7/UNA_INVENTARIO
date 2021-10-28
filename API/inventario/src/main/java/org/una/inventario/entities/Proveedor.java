@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 public class Proveedor implements Serializable {
 
     @Id
@@ -45,9 +46,9 @@ public class Proveedor implements Serializable {
     @Setter(AccessLevel.NONE)
     private Date fechaModificacion;
 
-   /* @OneToMany(cascade = CascadeType.ALL, mappedBy = "proveedor")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proveedor")
     @Builder.Default
-    private List<Activo> activos = new ArrayList<>();*/
+    private List<Activo> activos = new ArrayList<>();
 
     private static final long serialVersionUID = 1L;
 

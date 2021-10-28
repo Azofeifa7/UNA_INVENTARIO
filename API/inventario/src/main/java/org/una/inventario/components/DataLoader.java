@@ -34,8 +34,7 @@ public class DataLoader implements ApplicationRunner{
 
     @Override
     public void run(ApplicationArguments args) {
-        if (!usuarioService.findByCedulaAproximate(cedula).isEmpty()) {
-
+        if (usuarioService.findByCedulaAproximate(cedula).get().size() == 0 ){//get().size() == 0
             Optional<DepartamentoDTO> contabilidadDepartamento = departamentoService.create(DepartamentoDTO.builder().nombre("Contabilidad").build());
             Optional<DepartamentoDTO> cajasDepartamento = departamentoService.create(DepartamentoDTO.builder().nombre("Cajas").build());
             Optional<DepartamentoDTO> informaticaDepartamento = departamentoService.create(DepartamentoDTO.builder().nombre("Informatica").build());
@@ -71,6 +70,14 @@ public class DataLoader implements ApplicationRunner{
                     .departamento(informaticaDepartamento.orElseThrow())
                     .rol(administradorRol.orElseThrow()).build();
             usuarioService.create(administradorUsuario);
+
+            UsuarioDTO colaboradorUsuario = UsuarioDTO.builder()
+                    .cedula("123")
+                    .nombreCompleto("Usuario colaborador")
+                    .passwordEncriptado("Una2021")
+                    .departamento(informaticaDepartamento.orElseThrow())
+                    .rol(administradorRol.orElseThrow()).build();
+            usuarioService.create(colaboradorUsuario);
 
             System.out.println("Se agrega el usuario inicial a la aplicación");
         }else {

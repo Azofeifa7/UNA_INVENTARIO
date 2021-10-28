@@ -34,16 +34,26 @@ public class Usuario implements Serializable {
     @Column
     private boolean estado;
 
-   //@ManyToOne
-   //@JoinColumn(name="departamentos_id")
-   // private Long departamento;
+
    @ManyToOne
    @JoinColumn(name="departamentos_id")
    private Departamento departamento;
 
     @ManyToOne
-    @JoinColumn(name="rol")
+    @JoinColumn(name="rol_id")
     private Rol rol;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @Builder.Default
+    private List<ActivoAsignado> activoAsignado = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @Builder.Default
+    private List<Exepcion> exepcion = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @Builder.Default
+    private List<Transaccion> transaccion = new ArrayList<>();
 
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.DATE)

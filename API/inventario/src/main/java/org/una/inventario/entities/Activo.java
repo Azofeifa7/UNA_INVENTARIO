@@ -13,6 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 public class Activo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,13 +36,17 @@ public class Activo implements Serializable {
     @Setter(AccessLevel.NONE)
     private Date fechaModificacion;
 
-    /*@ManyToOne
+    @ManyToOne
+    @JoinColumn(name="marcas_id")
+    private Marca marca;
+
+    @ManyToOne
     @JoinColumn(name="proveedor_id")
     private Proveedor proveedor;
 
     @ManyToOne
     @JoinColumn(name="categoria_id")
-    private Categoria categoria;*/
+    private Categoria categoria;
 
     private static final long serialVersionUID = 1L;
 

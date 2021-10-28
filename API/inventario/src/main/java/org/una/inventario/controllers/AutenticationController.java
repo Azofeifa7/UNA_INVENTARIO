@@ -1,4 +1,5 @@
 package org.una.inventario.controllers;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,10 @@ import org.una.inventario.dto.AuthenticationResponse;
 import org.una.inventario.dto.UsuarioDTO;
 import org.una.inventario.exceptions.InvalidCredentialsException;
 import org.una.inventario.exceptions.MissingInputsException;
+
 import org.una.inventario.services.IAutenticationService;
 
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/autenticacion")
@@ -20,23 +23,22 @@ import org.una.inventario.services.IAutenticationService;
 public class AutenticationController {
 
     @Autowired
-    private IAutenticationService autenticationService;
-
+    private IAutenticationService autenticacionService;
 
     @ApiOperation(value = "Inicio de sesión para conseguir un token de acceso", response = UsuarioDTO.class, tags = "Autenticaciones")
     @PostMapping("")
     @ResponseBody
-    public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest, BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) { throw new MissingInputsException();  }
+    public ResponseEntity<?> login(@Valid @RequestBody AuthenticationRequest authenticationRequest, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new MissingInputsException();
+        }
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-        AuthenticationResponse token = autenticationService.login(authenticationRequest);
+        AuthenticationResponse token = autenticacionService.login(authenticationRequest);
         if (token.getJwt() != null) {
-            //authenticationResponse.setJwt(token.getJwt());
-            return new ResponseEntity(autenticationService.login(authenticationRequest), HttpStatus.OK);
+            return new ResponseEntity(autenticacionService.login(authenticationRequest), HttpStatus.OK);
         } else {
             throw new InvalidCredentialsException();
         }
-
-     }
+    }
 }
+

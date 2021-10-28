@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 
 public class Categoria implements Serializable {
     @Id
@@ -33,9 +34,9 @@ public class Categoria implements Serializable {
     private Date fechaCreacion;
 
 
-    /*@OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria")
     @Builder.Default
-    private List<Activo> activos = new ArrayList<>();*/
+    private List<Activo> activos = new ArrayList<>();
 
     private static final long serialVersionUID = 1L;
 

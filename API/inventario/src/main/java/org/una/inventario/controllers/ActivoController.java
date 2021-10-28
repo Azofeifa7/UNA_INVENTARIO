@@ -4,6 +4,7 @@ package org.una.inventario.controllers;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,9 @@ import org.una.inventario.dto.CategoriaDTO;
 import org.una.inventario.services.IActivoService;
 import org.una.inventario.services.ICategoriaService;
 
+import javax.xml.crypto.Data;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,6 +62,17 @@ public class ActivoController {
         return new ResponseEntity<>(activoCreated, HttpStatus.CREATED);
 
     }
+
+    @ApiOperation(value = "Obtiene una lista de activos por id de proveedor y un intervalo de fechas", response = ActivoDTO.class, responseContainer = "List", tags = "Activos")
+    @GetMapping("/findByProveedorIdAndStartDateAndEndDate/{idProve},{fechaInicio},{fechaFinal}")
+    public ResponseEntity<?> findByProveedorIdAndStartDateAndEndDate(@PathVariable(value = "idProve") Long idProve, @PathVariable(value = "fechaInicio")
+    @DateTimeFormat (pattern = "yyyy,MM,dd") Date fechaInicio, @PathVariable(value = "fechaFinal")
+    @DateTimeFormat (pattern = "yyyy,MM,dd") Date fechaFinal) {
+
+        Optional<List<ActivoDTO>> result = activoService.findByProveedorIdAndStart(idProve, fechaInicio, fechaFinal);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 
     @ApiOperation(value = "Modifica un activo", response = ActivoDTO.class, tags = "Activos")
     @PutMapping("/{id}")
