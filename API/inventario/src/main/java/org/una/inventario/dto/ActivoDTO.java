@@ -20,4 +20,8 @@ public class ActivoDTO {
     private Date fechaModificacion;
     private ProveedorDTO proveedor;
     private CategoriaDTO categoria;
+    private String correo;
+    private String telefono;
+    private String nota;
+    private Long continente;
 }

@@ -25,6 +25,15 @@ public class Activo implements Serializable {
 
     @Column(length = 100, name = "estado")
     private String estado;
+    @Column(length = 100, name = "correo")
+    private String correo;
+    @Column(length = 10, name = "telefono")
+    private String telefono;
+    @Column(length = 100, name = "nota")
+    private String nota;
+
+    @Column
+    private Long continente;
 
     @Column(name = "fecha_Creacion", updatable = false)
     @Temporal(TemporalType.DATE)
