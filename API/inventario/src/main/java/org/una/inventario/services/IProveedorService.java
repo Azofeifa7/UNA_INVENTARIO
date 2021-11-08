@@ -15,5 +15,5 @@ public interface IProveedorService {
     public void deleteAll();
     public Optional<List<ProveedorDTO>> findAll();
     Optional<List<ProveedorDTO>> findbyEstado(String estado);
-    public Optional<List<ProveedorDTO>> findByNombreCompletoAproximateIgnoreCase(String nombreCompleto);
+    public Optional<List<ProveedorDTO>> findByNombreAproximateIgnoreCase(String nombreCompleto);
 }

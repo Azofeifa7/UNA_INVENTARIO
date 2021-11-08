@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface IProveedorRepository extends JpaRepository<Proveedor, Long> {
     List<Proveedor> findByEstado(String estado);
 
-    List<Proveedor> findByNombreCompletoContainingIgnoreCase(String nombreCompleto);
+    List<Proveedor> findByNombreContainingIgnoreCase(String nombreCompleto);
     // Optional<Proveedor> findById(Long id);
 
   //  Proveedor save(Proveedor proveedor);

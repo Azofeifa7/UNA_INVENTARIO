@@ -22,7 +22,7 @@ public class Proveedor implements Serializable {
     private Long id;
 
     @Column(length = 100, name = "nombre")
-    private String nombreCompleto;
+    private String nombre;
 
     @Column(length = 250, name = "notas")
     private String notas;
@@ -38,7 +38,7 @@ public class Proveedor implements Serializable {
 
     @Column(name = "fecha_Creacion", updatable = false)
     @Temporal(TemporalType.DATE)
-    @Setter(AccessLevel.NONE)
+    @Setter(AccessLevel.PUBLIC)
     private Date fechaCreacion;
 
     @Column(name = "fecha_Modificacion", updatable = false)
@@ -54,13 +54,13 @@ public class Proveedor implements Serializable {
 
     @PrePersist
     public void prePersist() {
-        fechaCreacion = new Date();
+        //fechaCreacion = new Date();
 
     }
 
     @PreUpdate
     public void preUpdate() {
-        fechaCreacion = new Date();
+        fechaModificacion = new Date();
 
     }
 

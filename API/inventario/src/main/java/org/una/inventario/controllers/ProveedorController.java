@@ -71,7 +71,7 @@ public class ProveedorController {
     @GetMapping("/nombre/{term}")
     @ApiOperation(value = "Obtiene una lista de los proveedores por nombre", response = ProveedorDTO.class, responseContainer = "List", tags = "Proveedores")
     public ResponseEntity<?> findByNombreCompletoAproximateIgnoreCase(@PathVariable(value = "term") String term) {
-        Optional<List<ProveedorDTO>> result = proveedorService.findByNombreCompletoAproximateIgnoreCase(term);
+        Optional<List<ProveedorDTO>> result = proveedorService.findByNombreAproximateIgnoreCase(term);
         return new ResponseEntity<>(result, HttpStatus.OK);
 
     }

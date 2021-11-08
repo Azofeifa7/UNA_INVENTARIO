@@ -13,10 +13,9 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 public class CategoriaDTO {
-
     private Long id;
     private String nombre;
-    private boolean estado;
+    private String estado;
     private Date fechaCreacion;
 
 }

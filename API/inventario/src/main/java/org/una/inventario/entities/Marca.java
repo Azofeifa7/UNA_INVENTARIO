@@ -1,6 +1,7 @@
 package org.una.inventario.entities;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -29,7 +30,7 @@ public class Marca implements Serializable {
 
     @Column(name = "fecha_creacion", updatable = false)
     @Temporal(TemporalType.DATE)
-    @Setter(AccessLevel.NONE)
+    @Setter(AccessLevel.PUBLIC)
     private Date fechaCreacion;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "marca")
@@ -38,8 +39,8 @@ public class Marca implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @PrePersist
-    public void prePersist() {
-        fechaCreacion = new Date();
-    }
+//    @PrePersist
+//    public void prePersist() {
+//        //fechaCreacion = new Date();
+//    }
 }

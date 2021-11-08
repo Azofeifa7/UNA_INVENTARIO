@@ -15,13 +15,12 @@ import java.util.Date;
 public class ActivoDTO {
     private Long id;
     private String nombre;
-    private boolean estado;
+    private String estado;
+    private Long numero;
     private Date fechaCreacion;
     private Date fechaModificacion;
-    private ProveedorDTO proveedor;
-    private CategoriaDTO categoria;
-    private String correo;
-    private String telefono;
-    private String nota;
     private Long continente;
+    private MarcaDTO marca;
+    private ProveedorDTO proveedor;
+
 }

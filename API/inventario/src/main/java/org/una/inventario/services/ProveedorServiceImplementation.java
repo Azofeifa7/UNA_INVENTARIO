@@ -76,8 +76,8 @@ public class ProveedorServiceImplementation implements IProveedorService{
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<List<ProveedorDTO>> findByNombreCompletoAproximateIgnoreCase(String nombreCompleto) {
-        List<Proveedor> proveedorList = proveedorRepository.findByNombreCompletoContainingIgnoreCase(nombreCompleto);
+    public Optional<List<ProveedorDTO>> findByNombreAproximateIgnoreCase(String nombreCompleto) {
+        List<Proveedor> proveedorList = proveedorRepository.findByNombreContainingIgnoreCase(nombreCompleto);
         List<ProveedorDTO> proveedorDTOList = MapperUtils.DtoListFromEntityList(proveedorList, ProveedorDTO.class);
         return Optional.ofNullable(proveedorDTOList);
     }

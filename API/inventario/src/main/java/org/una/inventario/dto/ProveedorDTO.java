@@ -14,7 +14,7 @@ import java.util.Date;
 @ToString
 public class ProveedorDTO {
     private Long id;
-    private String nombreCompleto;
+    private String nombre;
     private String notas;
     private String telefono;
     private String correo;

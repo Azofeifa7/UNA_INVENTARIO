@@ -1,6 +1,7 @@
 package org.una.inventario.entities;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,22 +23,18 @@ public class Activo implements Serializable {
     @Column(length = 100, name = "nombre")
     private String nombre;
 
-
     @Column(length = 100, name = "estado")
     private String estado;
-    @Column(length = 100, name = "correo")
-    private String correo;
-    @Column(length = 10, name = "telefono")
-    private String telefono;
-    @Column(length = 100, name = "nota")
-    private String nota;
 
     @Column
     private Long continente;
 
+    @Column
+    private Long numero;
+
     @Column(name = "fecha_Creacion", updatable = false)
     @Temporal(TemporalType.DATE)
-    @Setter(AccessLevel.NONE)
+    @Setter(AccessLevel.PUBLIC)
     private Date fechaCreacion;
 
     @Column(name = "fecha_Modificacion", updatable = false)
@@ -61,8 +58,8 @@ public class Activo implements Serializable {
 
     @PrePersist
     public void prePersist() {
-        fechaCreacion = new Date();
-        fechaModificacion = new Date();
+      //  fechaCreacion = new Date();
+      //  fechaModificacion = new Date();
     }
 
     @PreUpdate
